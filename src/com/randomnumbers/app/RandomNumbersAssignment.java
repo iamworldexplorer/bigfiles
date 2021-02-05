@@ -1,6 +1,8 @@
 package com.randomnumbers.app;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,34 +13,37 @@ import com.randomnumbers.app.randomgenerator.RandomGeneratorConfig;
 public class RandomNumbersAssignment {
 
 	public static void main(String[] args) throws IOException {
-		String[] arr = new String[4];
-		String fileName = null;
+		String fileNameRandom = null;
+		String fileNameSorted = null;
 		String type = null;
 		Scanner sc= new Scanner(System.in);
-		System.out.print("Please enter a file name and a type of data(Integer, Double, Long): ");  
-		int countArgs = 0;
-		while(countArgs < 4) {
-			arr[countArgs++]= sc.nextLine();
-		}
-		fileName = !arr[0].isEmpty() ? arr[0] : null;
-		type = !arr[1].isEmpty() ? arr[1] : null;
-		
-		for(int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
-		}
+		System.out.println("Please enter a type of data(Integer, Double, Long): ");
+		type = sc.nextLine();
+		System.out.println("Please enter a name of file for storing randomly generated numbers:");
+		fileNameRandom = sc.nextLine();
+		System.out.println("Please enter a name of file for storing sorted numbers:");
+		fileNameSorted = sc.nextLine();
 		
 		RandomGeneratorConfig rgc = new RandomGeneratorConfig();
 		List<Number> numbers = rgc.generateRandomNumbers(type);
 		System.out.println(numbers);
 		
-		WriteDataIntoFile writeNumbers = new WriteDataIntoFile(fileName);
+		WriteDataIntoFile writeNumbers = new WriteDataIntoFile(fileNameRandom);
 		writeNumbers.writeNumbersIntoFile(numbers);
 		
-		ReadDataFromFile readNumbers = new ReadDataFromFile(fileName);
+		ReadDataFromFile readNumbers = new ReadDataFromFile(fileNameRandom);
 		List<Number> numbersFromFile = readNumbers.getNumbersFromFile();
 		System.out.println(numbersFromFile);
 		
+		Arrays.sort(numbersFromFile.toArray());
+		if(type != null && type.equals("Double")) {
+			Collections.sort(numbersFromFile, (a, b) -> Double.compare((double)a, (double)b));
+		}
 		
+		if(fileNameSorted != null) {
+			writeNumbers.setFileName(fileNameSorted);
+		}
+		writeNumbers.writeNumbersIntoFile(numbersFromFile);
 //		long start1 = System.currentTimeMillis();
 //		ReadDataFromFile readNumbers = new ReadDataFromFile("myfile.txt");
 //		List<Integer> numbersFromFile = readNumbers.getNumbersFromFile();
