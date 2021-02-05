@@ -11,13 +11,13 @@ import com.randomnumbers.app.randomgenerator.RandomGeneratorConfig;
 public class RandomNumbersAssignment {
 
 	public static void main(String[] args) throws IOException {
-		String[] arr = new String[2];
+		String[] arr = new String[4];
 		String fileName = null;
 		String type = null;
 		Scanner sc= new Scanner(System.in);
 		System.out.print("Please enter a file name and a type of data(Integer, Double, Long): ");  
 		int countArgs = 0;
-		while(countArgs < 2) {
+		while(countArgs < 4) {
 			arr[countArgs++]= sc.nextLine();
 		}
 		fileName = !arr[0].isEmpty() ? arr[0] : null;
@@ -34,7 +34,7 @@ public class RandomNumbersAssignment {
 		WriteDataIntoFile writeNumbers = new WriteDataIntoFile(fileName);
 		writeNumbers.writeNumbersIntoFile(numbers);
 		
-		ReadDataFromFile readNumbers = new ReadDataFromFile(fileName, type);
+		ReadDataFromFile readNumbers = new ReadDataFromFile(fileName);
 		List<Number> numbersFromFile = readNumbers.getNumbersFromFile();
 		System.out.println(numbersFromFile);
 		

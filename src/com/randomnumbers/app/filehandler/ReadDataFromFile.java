@@ -17,12 +17,10 @@ public class ReadDataFromFile {
 
 	public ReadDataFromFile() {
 		this.fileName = FileHandlerConstants.DEFAULT_FILENAME;
-		this.type = RandomGeneratorConstants.RANDOM_GENERATOR_TYPE_INTEGER;
 	}
 
-	public ReadDataFromFile(String fileName, String type) {
+	public ReadDataFromFile(String fileName) {
 		this.fileName = fileName == null ? FileHandlerConstants.DEFAULT_FILENAME : fileName;
-		this.type = type == null ? RandomGeneratorConstants.RANDOM_GENERATOR_TYPE_INTEGER : type.toUpperCase();
 	}
 
 	public List<Number> getNumbersFromFile() {
@@ -40,13 +38,14 @@ public class ReadDataFromFile {
 
 	private Number getNumberFromString(String str) {
 		Number number = null;
+		if(str == null || str.isEmpty()) {
+			return null;
+		}
 		try {
-			if (RandomGeneratorConstants.RANDOM_GENERATOR_TYPE_DOUBLE.equals(this.type)) {
+			if (str.contains(".")) {
 				number = Double.valueOf(str);
-			} else if (RandomGeneratorConstants.RANDOM_GENERATOR_TYPE_LONG.equals(this.type)) {
-				number = Long.valueOf(str);
 			} else {
-				number = Integer.valueOf(str);
+				number = Long.valueOf(str);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
